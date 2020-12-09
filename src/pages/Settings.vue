@@ -22,7 +22,6 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import Api from "../apis/Api";
 import UsersTable from '../components/Users/UsersTable'
 
 export default {

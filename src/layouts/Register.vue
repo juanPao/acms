@@ -118,7 +118,6 @@
 </template>
 
 <script>
-import Api from "../apis/Api";
 import Csrf from "../apis/Csrf";
 import { mapActions } from "vuex";
 

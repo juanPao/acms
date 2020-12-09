@@ -96,7 +96,6 @@
 import EssentialLink from "components/EssentialLink.vue"
 import { mapActions, mapMutations } from "vuex"
 import { LocalStorage } from "quasar"
-import Api from "../apis/Api"
 
 export default {
   name: "MainLayout",

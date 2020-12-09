@@ -25,7 +25,6 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import Api from "../apis/Api";
 import FarmersTable from '../components/Farmers/FarmersTable'
 import FarmerCreate from '../components/Farmers/FarmerCreate'
 import FarmerProfile from '../components/Farmers/FarmerProfile'
