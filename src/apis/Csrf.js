@@ -1,4 +1,4 @@
-import Api from "./Api"
+import Api from "./API"
 import Cookie from "js-cookie"
 
 export default {
