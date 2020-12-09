@@ -1,4 +1,4 @@
-import Api from "../apis/Api";
+import Api from "../apis/API";
 
 import { LocalStorage, Loading } from "quasar";
 
