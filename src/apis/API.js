@@ -3,7 +3,8 @@ import {LocalStorage} from 'quasar'
 
 let BaseApi = axios.create({
     //baseURL: "http://localhost:8000/api"
-    baseURL: "https://shielded-shelf-72676.herokuapp.com/api"
+    //baseURL: "https://acms-v1.herokuapp.com/api"
+    baseURL: process.env.API
 });
 
 let Api = function(){
