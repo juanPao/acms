@@ -3,12 +3,16 @@ import Api from "../apis/API";
 import { LocalStorage, Loading } from "quasar";
 
 const state = {
+  processingRequest: false,
   page: "lists",
   farmers: [],
   farmer: {}
 };
 
 const mutations = {
+  SET_PROCESS_REQUEST(state, value){
+    state.processingRequest = value;
+  },
   SET_PAGE(state, value) {
     state.page = value;
   },

@@ -1,221 +1,264 @@
 <template>
   <q-card>
-    <q-card-section class="row">
-      <q-avatar class="col-6">
-        <img src="~assets/profile_1.png" />
-      </q-avatar>
-      <div class="col-6"></div>
-    </q-card-section>
-    <q-card-section class="row">
-      <div class="col-12">
-        <q-card flat bordered class="q-pa-md">
-          <q-card-section class="bg-primary text-white">
-            <div class="text-h5">Personal Information</div>
-          </q-card-section>
-          <q-separator></q-separator>
-          <q-card-section>
-            <div class="row">
-              <q-input
-                class="col-12 col-md-4"
-                outlined
-                v-model="farmer.fname"
-                label="First Name"
-              />
-              <q-input
-                class="col-12 col-md-4"
-                outlined
-                v-model="farmer.mname"
-                label="Middle Name"
-              />
-              <q-input
-                class="col-12 col-md-4"
-                outlined
-                v-model="farmer.lname"
-                label="Last Name"
-              />
+    <q-card-section>
+      <q-stepper
+        v-model="step"
+        ref="stepper"
+        color="primary"
+        header-nav
+        animated
+      >
+        <!-- PERSONAL INFORMATION -->
+        <q-step :name="1" title="Step 1 - Personal Information" icon="account_box" >
+          <div class="row">
+            <div class="col-12 col-md-2">
+              <q-avatar size="100px">
+                <img src="~assets/profile_1.png" />
+              </q-avatar>
             </div>
-            <div class="row q-pt-md">
-              <q-input
-                class="col-12 col-md-4"
-                outlined
-                v-model="farmer.extension_name"
-                label="Extension Name"
-              />
+            <div class="col-12 col-md-10">
+              <div class="row">
+                <q-input
+                  class="col-12 col-md-4 q-pr-md"
+                  outlined
+                  prefix="First name:"
+                  v-model="farmer.fname"
+                />
+                <!-- <template v-slot:before>
+                <q-icon name="mail" />  
+              </template> -->
+                <q-input
+                  class="col-12 col-md-4 q-pr-md"
+                  outlined
+                  v-model="farmer.mname"
+                  prefix="Middle Name:"
+                />
+                <q-input
+                  class="col-12 col-md-4 q-pr-md"
+                  outlined
+                  v-model="farmer.lname"
+                  prefix="Last Name:"
+                />
+              </div>
+              <div class="row q-pt-md">
+                <q-input
+                  class="col-12 col-md-4 q-pr-md"
+                  outlined
+                  v-model="farmer.extension_name"
+                  prefix="Extension Name:"
+                />
+                <div class="col-12 col-md-8 q-pr-md">
+                  Gender
+                  <q-radio v-model="farmer.gender" val="male" label="Male" />
+                  <q-radio
+                    v-model="farmer.gender"
+                    val="female"
+                    label="Female"
+                  />
+                </div>
+              </div>
             </div>
-          </q-card-section>
-          <q-separator></q-separator>
-          <q-card-section>
-            Gender
-            <q-radio v-model="farmer.gender" val="male" label="Male" />
-            <q-radio v-model="farmer.gender" val="female" label="Female" />
-          </q-card-section>
-          <q-separator></q-separator>
-          <q-card-section class="bg-primary text-white">
-            Address
-          </q-card-section>
-          <q-separator></q-separator>
-          <q-card-section>
+          </div>
+          <q-separator class="q-ma-md"></q-separator>
+          <div class="row">
+            <q-input
+              class="col-12 col-md-4 q-pr-md"
+              outlined
+              v-model="farmer.contact_number"
+              prefix="Contact Number:"
+            />
+            <q-input
+              class="col-12 col-md-4 q-pr-md"
+              outlined
+              type="date"
+              v-model="farmer.birthdate"
+              prefix="Date of Birth:"
+            />
+            <q-input
+              class="col-12 col-md-4 q-pr-md"
+              outlined
+              v-model="farmer.place_of_birth"
+              prefix="Place of Birth:"
+            />
+          </div>
+          <div class="row q-pt-md">
+            <q-select
+              class="col-12 col-md-4 q-pr-md"
+              outlined
+              :options="listsOfReligions"
+              v-model="farmer.religion"
+              prefix="Religion:"
+            />
+            <div class="col-12 col-md-4 q-pr-md">
+              <div class="row">
+                <div class="col-2 col-md-4 q-pa-md">
+                  Civil Status
+                </div>
+                <div class="col-10 col-md-8">
+                  <q-radio
+                    v-model="farmer.civil_status"
+                    val="Single"
+                    label="Single"
+                  />
+                  <q-radio
+                    v-model="farmer.civil_status"
+                    val="Married"
+                    label="Married"
+                  />
+                  <q-radio
+                    v-model="farmer.civil_status"
+                    val="Windowed"
+                    label="Windowed"
+                  />
+                  <q-radio
+                    v-model="farmer.civil_status"
+                    val="Separated"
+                    label="Separated"
+                  />
+                </div>
+              </div>
+            </div>
+            <q-input
+              v-if="farmer.civil_status === 'Married'"
+              class="col-12 col-md-4 q-pr-md"
+              outlined
+              v-model="farmer.name_of_spouse"
+              prefix="Name of Spouse:"
+            />
+          </div>
+          <div class="row q-pt-md">
+            <q-input
+              class="col-12 col-md-4 q-pr-md"
+              outlined
+              v-model="farmer.mothers_maiden_name"
+              prefix="Mother's Maiden Name:"
+            />
+          </div>
+          <q-separator class="q-ma-md"></q-separator>
+          <div class="row q-pt-md">
+            <div class="col-12 col-md-4">
+              <div class="text-h5 text-center">Household Details</div>
+            </div>
+            <div class="col-12 col-md-8 q-pr-md">
+              <div class="row">
+                <div class="col-4 col-md-2">
+                  Household Head?
+                </div>
+                <div class="col-8 col-md-2">
+                  <q-radio
+                    v-model="farmer.is_household_head"
+                    val="1"
+                    label="Yes"
+                  />
+                  <q-radio
+                    v-model="farmer.is_household_head"
+                    val="0"
+                    label="no"
+                  />
+                </div>
+                <div
+                  class="col-12 col-md-4 q-pr-md"
+                  v-if="farmer.is_household_head == 0"
+                >
+                  <q-select
+                    outlined
+                    v-model="farmer.household_head.relationship_type"
+                    :options="typesOfRelationships"
+                    prefix="Relationship:"
+                  />
+                </div>
+              </div>
+              <div class="row q-pt-md" v-if="farmer.is_household_head == 0">
+                <q-input
+                  class="col-12 col-md-4 q-pr-md"
+                  outlined
+                  v-model="farmer.household_head.fname"
+                  prefix="First name:"
+                />
+                <q-input
+                  class="col-12 col-md-4 q-pr-md"
+                  outlined
+                  v-model="farmer.household_head.mname"
+                  prefix="Middle name:"
+                />
+                <q-input
+                  class="col-12 col-md-4 q-pr-md"
+                  outlined
+                  v-model="farmer.household_head.lname"
+                  prefix="Last name:"
+                />
+              </div>
+              
+            </div>
+          </div>
+          <q-separator class="q-ma-md"></q-separator>
+          <div class="row q-pt-md">
+            <div class="col-6 col-md-6"></div>
+            <div class="col-6 col-md-6">
+              <q-btn color="info" class="full-width" @click="toggleNext()">
+                Next
+              </q-btn>
+            </div>
+          </div>
+        </q-step>
+        <!-- ADDRESS -->
+        <q-step :name="2" title="Step 2 - Address" icon="explore">
+          <div class="row">
             <q-input
               class="col-12 col-md-12 q-pt-md"
               outlined
               v-model="farmer.address_house_number"
-              label="House/Lot/Building Number"
+              prefix="House/Lot/Building Number:"
             />
             <q-input
               class="col-12 col-md-12 q-pt-md"
               outlined
               v-model="farmer.address_street"
-              label="Street/Subd"
+              prefix="Street/Subd:"
             />
             <q-input
               class="col-12 col-md-12 q-pt-md"
               outlined
               v-model="farmer.address_barangay"
-              label="Barangay"
+              prefix="Barangay:"
             />
             <q-input
               class="col-12 col-md-12 q-pt-md"
               outlined
               v-model="farmer.address_municipality"
-              label="Municipality/City"
+              prefix="Municipality/City:"
             />
             <q-input
               class="col-12 col-md-12 q-pt-md"
               outlined
               v-model="farmer.address_province"
-              label="Province"
+              prefix="Province:"
             />
             <q-input
               class="col-12 col-md-12 q-pt-md"
               outlined
               v-model="farmer.address_region"
-              label="Region"
+              prefix="Region:"
             />
-          </q-card-section>
-          <q-separator></q-separator>
-          <q-card-section>
-            <div class="row">
-              <q-input
-                class="col-12 col-md-12 q-pt-md"
-                outlined
-                v-model="farmer.contact_number"
-                label="Contact Number"
-              />
+          </div>
+          <q-separator class="q-ma-md"></q-separator>
+          <div class="row">
+            <div class="col-6 col-md-6">
+              <q-btn class="full-width" @click="togglePrevious()">
+                Previous
+              </q-btn>
             </div>
-          </q-card-section>
-          <q-separator></q-separator>
-          <q-card-section class="row">
-            <q-input
-              class="col-12 col-md-6 q-pt-md"
-              outlined
-              type="date"
-              v-model="farmer.birthdate"
-              label="Date of Birth"
-            />
-            <q-input
-              class="col-12 col-md-6 q-pt-md"
-              outlined
-              v-model="farmer.place_of_birth"
-              label="Place of Birth"
-            />
-          </q-card-section>
-          <q-separator></q-separator>
-          <q-card-section class="row">
-            <q-select
-              class="col-12 col-md-6 q-pt-md"
-              outlined
-              :options="listsOfReligions"
-              v-model="farmer.religion"
-              label="Religion"
-            />
-            <div class="col-12 col-md-6 q-pl-md">
-              <div class="row">
-                Civil Status
-              </div>
-              <div class="row">
-                <q-radio
-                  v-model="farmer.civil_status"
-                  val="Single"
-                  label="Single"
-                />
-                <q-radio
-                  v-model="farmer.civil_status"
-                  val="Married"
-                  label="Married"
-                />
-                <q-radio
-                  v-model="farmer.civil_status"
-                  val="Windowed"
-                  label="Windowed"
-                />
-                <q-radio
-                  v-model="farmer.civil_status"
-                  val="Separated"
-                  label="Separated"
-                />
-              </div>
-              <div class="row" v-if="farmer.civil_status === 'Married'">
-                <q-input
-                  class="col-12 col-md-12 q-pt-md"
-                  outlined
-                  v-model="farmer.name_of_spouse"
-                  label="Name of Spouse"
-                />
-              </div>
+            <div class="col-6 col-md-6">
+              <q-btn color="info" class="full-width" @click="toggleNext()">
+                Next
+              </q-btn>
             </div>
-          </q-card-section>
-          <q-separator></q-separator>
-          <q-card-section class="row">
-            <q-input
-              class="col-12 col-md-12 q-pt-md"
-              outlined
-              v-model="farmer.mothers_maiden_name"
-              label="Mother's Maiden Name"
-            />
-          </q-card-section>
-          <q-separator></q-separator>
-          <q-card-section>
-            <div class="row">
-              Household Head?
-              <q-radio v-model="farmer.is_household_head" val="1" label="Yes" />
-              <q-radio v-model="farmer.is_household_head" val="0" label="no" />
-            </div>
-            <div class="row" v-if="farmer.is_household_head == 0">
-              <div class="col-12 col-md-3 q-pa-md">
-                Household details
-              </div>
-              <q-select
-                class="col-12 col-md-4 q-pt-md"
-                outlined
-                v-model="farmer.household_head.relationship_type"
-                :options="typesOfRelationships"
-                label="Relationship"
-              />
-            </div>
-            <div class="row" v-if="farmer.is_household_head == 0">
-              <q-input
-                class="col-12 col-md-4 q-pt-md"
-                outlined
-                v-model="farmer.household_head.fname"
-                label="First name"
-              />
-              <q-input
-                class="col-12 col-md-4 q-pt-md"
-                outlined
-                v-model="farmer.household_head.mname"
-                label="Middle name"
-              />
-              <q-input
-                class="col-12 col-md-4 q-pt-md"
-                outlined
-                v-model="farmer.household_head.lname"
-                label="Last name"
-              />
-            </div>
-          </q-card-section>
-          <q-separator></q-separator>
-          <q-card-section class="row">
-            <div class="col-6 col-md-3 q-pa-md">Highest Formal Education</div>
+          </div>
+        </q-step>
+        <!-- OTHER DETAILS -->
+        <q-step :name="3" title="Step 3 - Other Details" icon="assignment">
+          <div class="row">
+            <div class="col-6 col-md-3">Highest Formal Education</div>
             <div class="col-6 col-md-9">
               <q-radio
                 v-model="farmer.highest_education"
@@ -248,131 +291,132 @@
                 label="Post Graduate"
               />
             </div>
-          </q-card-section>
-          <q-separator></q-separator>
-          <q-card-section class="q-pa-md">
-            Person with Disability (PWD)
-            <q-radio v-model="farmer.is_pwd" val="1" label="Yes" />
-            <q-radio v-model="farmer.is_pwd" val="0" label="no" />
-          </q-card-section>
-          <q-separator></q-separator>
-          <q-card-section>
-            <div class="row">
-              <div class="col-6 col-md-2 q-pa-md">
-                4P's Beneficiary?
-              </div>
-              <div class="col-6 col-md-10 q-pa-md">
-                <q-radio v-model="farmer.is_4ps" val="1" label="Yes" />
-                <q-radio v-model="farmer.is_4ps" val="0" label="no" />
-              </div>
+          </div>
+          <div class="row q-pt-md">
+            <div class="col-6 col-md-3">
+              Person with Disability (PWD)
             </div>
-            <div class="row">
-              <div class="col-6 col-md-2 q-pa-md">
-                Member of indigenous group?
-              </div>
-              <div class="col-6 col-md-2 q-pa-md">
-                <q-radio
-                  v-model="farmer.is_indigenous_group"
-                  val="1"
-                  label="Yes"
-                />
-                <q-radio
-                  @click="farmer.indigenous_group = ''"
-                  v-model="farmer.is_indigenous_group"
-                  val="0"
-                  label="no"
-                />
-              </div>
-              <q-input
-                v-if="farmer.is_indigenous_group == 1"
-                class="col-12 col-md q-pt-md"
-                outlined
-                v-model="farmer.indigenous_group"
-                label="Specify"
+            <div class="col-6 col-md-9">
+              <q-radio v-model="farmer.is_pwd" val="1" label="Yes" />
+              <q-radio v-model="farmer.is_pwd" val="0" label="no" />
+            </div>
+          </div>
+          <div class="row q-pt-md">
+            <div class="col-6 col-md-3">
+              4P's Beneficiary?
+            </div>
+            <div class="col-6 col-md-9">
+              <q-radio v-model="farmer.is_4ps" val="1" label="Yes" />
+              <q-radio v-model="farmer.is_4ps" val="0" label="no" />
+            </div>
+          </div>
+          <div class="row q-pt-md">
+            <div class="col-6 col-md-3">
+              Member of indigenous group?
+            </div>
+            <div class="col-6 col-md-2">
+              <q-radio
+                v-model="farmer.is_indigenous_group"
+                val="1"
+                label="Yes"
+              />
+              <q-radio
+                @click="farmer.indigenous_group = ''"
+                v-model="farmer.is_indigenous_group"
+                val="0"
+                label="no"
               />
             </div>
-          </q-card-section>
-          <q-separator></q-separator>
-          <q-card-section>
-            <div class="row">
-              <div class="col-6 col-md-2 q-pa-md">
-                Has Government ID?
-              </div>
-              <div class="col-6 col-md-2">
-                <q-radio
-                  v-model="farmer.is_government_id"
-                  val="1"
-                  label="Yes"
-                />
-                <q-radio v-model="farmer.is_government_id" val="0" label="no" />
-              </div>
-              <q-input
-                v-if="farmer.is_government_id == 1"
-                class="col-12 col-md q-pt-md"
-                outlined
-                v-model="farmer.government_id"
-                label="Specify government ID"
-              />
-            </div>
-          </q-card-section>
-          <q-separator></q-separator>
-          <q-card-section>
-            <div class="row">
-              <div class="col-6 col-md-2 q-pa-md">
-                Member of any Farmers Association/Cooperative?
-              </div>
-              <div class="col-6 col-md-2">
-                <q-radio
-                  v-model="farmer.is_association_member"
-                  val="1"
-                  label="Yes"
-                />
-                <q-radio
-                  v-model="farmer.is_association_member"
-                  val="0"
-                  label="no"
-                />
-              </div>
-              <q-input
-                v-if="farmer.is_association_member == 1"
-                class="col-12 col-md q-pt-md"
-                outlined
-                v-model="farmer.association"
-                label="Specify association"
-              />
-            </div>
-          </q-card-section>
-          <q-separator></q-separator>
-          <q-card-section>
             <q-input
-              class="q-pt-md"
+              v-if="farmer.is_indigenous_group == 1"
+              class="col-12 col-md-7"
+              outlined
+              v-model="farmer.indigenous_group"
+              prefix="Specify:"
+            />
+          </div>
+          <div class="row q-pt-md">
+            <div class="col-6 col-md-3">
+              Has Government ID?
+            </div>
+            <div class="col-6 col-md-2">
+              <q-radio v-model="farmer.is_government_id" val="1" label="Yes" />
+              <q-radio v-model="farmer.is_government_id" val="0" label="no" />
+            </div>
+            <q-input
+              v-if="farmer.is_government_id == 1"
+              class="col-12 col-md-7"
+              outlined
+              v-model="farmer.government_id"
+              prefix="Specify government ID:"
+            />
+          </div>
+          <div class="row q-pt-md">
+            <div class="col-6 col-md-3">
+              Member of any Farmers Association/Cooperative?
+            </div>
+            <div class="col-6 col-md-2">
+              <q-radio
+                v-model="farmer.is_association_member"
+                val="1"
+                label="Yes"
+              />
+              <q-radio
+                v-model="farmer.is_association_member"
+                val="0"
+                label="no"
+              />
+            </div>
+            <q-input
+              v-if="farmer.is_association_member == 1"
+              class="col-12 col-md-7 q-pt-md"
+              outlined
+              v-model="farmer.association"
+              prefix="Specify association:"
+            />
+          </div>
+          <q-separator></q-separator>
+          <div class="row q-pt-md">
+            <q-input
+              class="col-12 col-md-6 q-pr-md"
               outlined
               v-model="farmer.emergency_contact_person"
-              label="Person to notify in case of emergency"
+              prefix="Person to notify in case of emergency:"
             />
             <q-input
-              class="q-pt-md"
+              class="col-12 col-md-6 q-pr-md"
               outlined
               v-model="farmer.emergency_contact_person_number"
-              label="Emergency Contact Number"
+              prefix="Emergency Contact Number:"
             />
-          </q-card-section>
-        </q-card>
-      </div>
-    </q-card-section>
-    <q-card-section>
-        <q-btn class="full-width " color="primary" size="lg" @click="toggleSave()">Save</q-btn>
+          </div>
+          <q-separator class="q-ma-md"></q-separator>
+          <div class="row">
+            <div class="col-12 col-md-12">
+              <q-btn
+                icon="save"
+                class="full-width"
+                :loading="processingRequest"
+                color="primary"
+                @click="toggleSave()"
+                >Submit</q-btn
+              >
+            </div>
+          </div>
+        </q-step>
+      </q-stepper>
     </q-card-section>
   </q-card>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapMutations, mapState } from "vuex";
 
 export default {
   name: "FarmerCreate",
   data() {
     return {
+      step: 1,
       farmer: {
         fname: "",
         mname: "",
@@ -387,44 +431,69 @@ export default {
         address_region: "",
 
         name_of_spouse: "",
-        is_household_head: 0,
+        is_household_head: null,
         highest_education: "",
-        is_pwd: 0,
-        is_4ps: 0,
-        is_indigenous_group: 0,
+        is_pwd: null,
+        is_4ps: null,
+        is_indigenous_group: null,
         indigenous_group: "",
-        is_government_id: 0,
+        is_government_id: null,
         government_id: "",
-        is_association_member: 0,
+        is_association_member: null,
         association: "",
         emergency_contact_person: "",
         emergency_contact_person_number: "",
         household_head: {
-            fname: "",
-            mname: "",
-            lname: "",
-            relationship_type: "",
+          fname: "",
+          mname: "",
+          lname: "",
+          relationship_type: ""
         }
       }
     };
   },
   computed: {
+    ...mapState("farmers", ["processingRequest"]),
     typesOfRelationships() {
       return ["Wife", "Husband", "Brother", "Sister"];
     },
-    listsOfReligions(){
+    listsOfReligions() {
       return ["Roman Catholic", "INC", "Muslim", "Others"];
     }
   },
   methods: {
-      ...mapActions("farmers", ['storeFarmer']),
-      toggleSave(){
-          this.storeFarmer(this.farmer).then((response) => {
-              console.log(response);
-          }).catch((error) => {
-              console.log(error);
+    ...mapActions("farmers", ["storeFarmer"]),
+    ...mapMutations("farmers", [
+      "SET_PROCESS_REQUEST",
+      "SET_PAGE",
+      "SET_FARMER",
+    ]),
+    toggleNext(){
+      this.step++;
+    },
+    togglePrevious(){
+      this.step--;
+    },
+    toggleSave() {
+      this.SET_PROCESS_REQUEST(true);
+      this.storeFarmer(this.farmer)
+        .then(response => {
+          this.SET_PROCESS_REQUEST(false);
+          this.SET_FARMER(response.data.farmer);
+          this.SET_PAGE("profile");
+          this.$q.notify({
+            type: "positive",
+            position: "bottom-right",
+            message: "Successfully added to the database!"
           });
-      }
+          console.log(response);
+        })
+        .catch(error => {
+          this.SET_PROCESS_REQUEST(false);
+
+          console.log(error);
+        });
+    }
   }
 };
 </script>
