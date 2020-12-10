@@ -16,7 +16,7 @@
           Agricultural Commodities Management System
         </q-toolbar-title>
 
-        <div><q-btn @click="toggleLogout()" :loading="processingRequest">Logout</q-btn></div>
+        <div><q-btn @click="toggleLogout()" :loading="processingRequest" icon="exit_to_app" >Logout</q-btn></div>
       </q-toolbar>
     </q-header>
 
@@ -27,7 +27,7 @@
       content-class="bg-grey-1"
     >
       <q-scroll-area
-        style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd"
+        style="height: calc(100% - 200px); margin-top: 200px; border-right: 1px solid #ddd"
       >
         <q-list>
           <q-item clickable v-ripple to="dashboard" exact>
@@ -78,8 +78,8 @@
 
       <q-img
         class="absolute-top"
-        src="~assets/farm-1.jpg"
-        style="height: 150px"
+        src="~assets/da_bg3.png"
+        style="height: 200px;"
       >
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">

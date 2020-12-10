@@ -1,14 +1,14 @@
 <template>
   <q-page class="q-pa-md">
     <q-card>
-      <q-card-section>
+      <q-card-section class="farmers-bg">
         <div class="row">
-          <div class="col">
+          <div class="col-12 col-md-6 q-pa-md">
              <div class="text-h5"><q-icon name="groups"></q-icon> Manage Farmers</div>
           </div>
-          <div class="col">
-            <q-btn label="Lists of Farmers" v-if="page != 'lists'" @click="toggleLists()"></q-btn>
-            <q-btn label="Add Record" color="primary" icon="add_box" class="absolute-right" v-if="page != 'create'" @click="toggleCreate()"></q-btn>
+          <div class="col-12 col-md-6 " align="end">
+            <q-btn label="Lists of Farmers" color="info" size="lg" icon="list" v-if="page != 'lists'" @click="toggleLists()"></q-btn>
+            <q-btn label="Add Record" color="primary" icon="add_box" size="lg" v-if="page != 'create'" @click="toggleCreate()"></q-btn>
           </div>
         </div>
       </q-card-section>
@@ -63,3 +63,13 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.farmers-bg {
+    
+    background-size: contain;
+    background: linear-gradient(rgba(255,255,255,.1), rgba(255,255,255,.9)), url("~assets/doa_banner2.png");
+
+  }
+
+</style>

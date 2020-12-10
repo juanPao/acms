@@ -1,8 +1,8 @@
 <template>
-  <q-card class="q-pa-md">
-    <q-card-section class="bg-primary row">
-      <div class="col-12 col-md-6 text-h5 text-white">
-        <q-icon name="face" /> Farmer Profile
+  <q-card>
+    <q-card-section class="row">
+      <div class="col-12 col-md-6 text-h5 ">
+        <q-icon name="face" /> Farmer Profile | <span class="text-weight-bolder text-black">Ref#89809123</span>
       </div>
       <div class="col-12 col-md-6">
         <q-btn color="warning" class="text-black absolute-right"

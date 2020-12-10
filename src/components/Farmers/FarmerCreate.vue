@@ -1,6 +1,4 @@
 <template>
-  <q-card>
-    <q-card-section>
       <q-stepper
         v-model="step"
         ref="stepper"
@@ -392,7 +390,12 @@
           </div>
           <q-separator class="q-ma-md"></q-separator>
           <div class="row">
-            <div class="col-12 col-md-12">
+            <div class="col-6 col-md-6">
+              <q-btn class="full-width" @click="togglePrevious()">
+                Previous
+              </q-btn>
+            </div>
+            <div class="col-6 col-md-6">
               <q-btn
                 icon="save"
                 class="full-width"
@@ -405,8 +408,6 @@
           </div>
         </q-step>
       </q-stepper>
-    </q-card-section>
-  </q-card>
 </template>
 
 <script>
