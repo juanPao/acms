@@ -3,6 +3,7 @@ import Api from "../apis/API";
 import { LocalStorage, Loading } from "quasar";
 
 const state = {
+  processingRequest: false,
   loggedIn: false,
   user: {
     email: "",
@@ -10,6 +11,9 @@ const state = {
 };
 
 const mutations = {
+  SET_PROCESS_REQUEST(state, value){
+    state.processingRequest = value;
+  },
   setLoggedIn(state, value) {
     state.loggedIn = value;
   },

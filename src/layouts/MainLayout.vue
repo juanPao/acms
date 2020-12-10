@@ -12,10 +12,11 @@
         />
 
         <q-toolbar-title>
-          Agricultural Commodities Management System 
+          <q-avatar size="24px"> <img src="~assets/doa_logo.png"/> </q-avatar>
+          Agricultural Commodities Management System
         </q-toolbar-title>
 
-        <div><q-btn @click="toggleLogout()">Logout</q-btn></div>
+        <div><q-btn @click="toggleLogout()" :loading="processingRequest">Logout</q-btn></div>
       </q-toolbar>
     </q-header>
 
@@ -25,65 +26,69 @@
       bordered
       content-class="bg-grey-1"
     >
-     
+      <q-scroll-area
+        style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd"
+      >
+        <q-list>
+          <q-item clickable v-ripple to="dashboard" exact>
+            <q-item-section avatar>
+              <q-icon name="dashboard" />
+            </q-item-section>
+            <q-item-section>
+              Dashboard
+            </q-item-section>
+          </q-item>
+          <q-item clickable v-ripple to="/" exact>
+            <q-item-section avatar>
+              <q-icon name="book_online" />
+            </q-item-section>
+            <q-item-section>
+              Home
+            </q-item-section>
+          </q-item>
 
-      <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
-           <q-list>
-        <q-item clickable v-ripple to="dashboard" exact>
-          <q-item-section avatar>
-            <q-icon name="dashboard" />
-          </q-item-section>
-          <q-item-section>
-            Dashboard
-          </q-item-section>
-        </q-item>
-        <q-item clickable v-ripple to="/" exact>
-          <q-item-section avatar>
-            <q-icon name="book_online" />
-          </q-item-section>
-          <q-item-section>
-            Home
-          </q-item-section>
-        </q-item>
+          <q-item clickable v-ripple to="farmers" exact>
+            <q-item-section avatar>
+              <q-icon name="groups" />
+            </q-item-section>
+            <q-item-section>
+              Farmers
+            </q-item-section>
+          </q-item>
 
-        <q-item clickable v-ripple to="farmers" exact>
-          <q-item-section avatar>
-            <q-icon name="groups" />
-          </q-item-section>
-          <q-item-section>
-            Farmers
-          </q-item-section>
-        </q-item>
+          <q-item clickable v-ripple to="settings" exact>
+            <q-item-section avatar>
+              <q-icon name="groups" />
+            </q-item-section>
+            <q-item-section>
+              Settings
+            </q-item-section>
+          </q-item>
 
-        <q-item clickable v-ripple to="settings" exact>
-          <q-item-section avatar>
-            <q-icon name="groups" />
-          </q-item-section>
-          <q-item-section>
-            Settings
-          </q-item-section>
-        </q-item>
+          <q-item clickable v-ripple to="users" exact>
+            <q-item-section avatar>
+              <q-icon name="groups" />
+            </q-item-section>
+            <q-item-section>
+              Users
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
 
-        <q-item clickable v-ripple to="users" exact>
-          <q-item-section avatar>
-            <q-icon name="groups" />
-          </q-item-section>
-          <q-item-section>
-            Users
-          </q-item-section>
-        </q-item>
-      </q-list>
-        </q-scroll-area>
-
-      <q-img class="absolute-top" src="~assets/farm-1.jpg" style="height: 150px">
-          <div class="absolute-bottom bg-transparent">
-            <q-avatar size="56px" class="q-mb-sm">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-            </q-avatar>
-            <div class="text-weight-bold">{{ user_email }}</div>
-            <div>@rstoenescu</div>
-          </div>
-        </q-img>
+      <q-img
+        class="absolute-top"
+        src="~assets/farm-1.jpg"
+        style="height: 150px"
+      >
+        <div class="absolute-bottom bg-transparent">
+          <q-avatar size="56px" class="q-mb-sm">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+          </q-avatar>
+          <div class="text-weight-bold">{{ user_email }}</div>
+          <div>@rstoenescu</div>
+        </div>
+      </q-img>
     </q-drawer>
 
     <q-page-container>
@@ -93,36 +98,41 @@
 </template>
 
 <script>
-import EssentialLink from "components/EssentialLink.vue"
-import { mapActions, mapMutations } from "vuex"
-import { LocalStorage } from "quasar"
+import EssentialLink from "components/EssentialLink.vue";
+import { mapActions, mapMutations, mapState } from "vuex";
+import { LocalStorage } from "quasar";
 
 export default {
   name: "MainLayout",
   components: { EssentialLink },
   data() {
     return {
-      leftDrawerOpen: false,
+      leftDrawerOpen: false
     };
   },
   computed: {
-    user_email(){
+    ...mapState("auth", ["processingRequest"]),
+    user_email() {
       let user = LocalStorage.getItem("user");
       return user.email;
-    },
+    }
   },
   methods: {
     ...mapActions("auth", ["logoutUser"]),
-    ...mapMutations("auth", ['setLoggedIn']),
+    ...mapMutations("auth", ["setLoggedIn", "SET_PROCESS_REQUEST"]),
     toggleLogout() {
+      this.SET_PROCESS_REQUEST(true);
+
       this.logoutUser()
         .then(response => {
+          this.SET_PROCESS_REQUEST(false);
           this.setLoggedIn(false);
           LocalStorage.remove("token");
           LocalStorage.remove("user");
           this.$router.replace("/login");
         })
         .catch(error => {
+          this.SET_PROCESS_REQUEST(false);
           console.log(error);
         });
     }

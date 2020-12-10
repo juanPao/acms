@@ -2,7 +2,7 @@
   <q-page>
     <img
       alt="Quasar logo"
-      src="~assets/quasar-logo-full.svg"
+      src="~assets/rsbsa_logo.png"
     >
   </q-page>
 </template>

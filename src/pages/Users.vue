@@ -3,11 +3,12 @@
     <q-card>
       <q-card-section>
         <div class="row">
-          <div class="col">
+          <div class="col-12 col-md-6">
             Manage Users
           </div>
-          <div class="col">
-            <q-btn label="Create User"></q-btn>
+          <div class="col-12 col-md-6" align="end">
+            <q-space />
+            <q-btn>Create User</q-btn>
           </div>
         </div>
       </q-card-section>

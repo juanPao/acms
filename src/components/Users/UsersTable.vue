@@ -5,7 +5,7 @@
     :columns="columns"
     color="primary"
     row-key="name"
-    :loading="loading"
+    :loading="processingRequest"
     :pagination="initialPagination"
   >
     <template v-slot:loading>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 
 export default {
   data() {
@@ -44,13 +44,19 @@ export default {
     this.initializeUsers();
   },
   computed: {
-    ...mapState("users", ["users"]),
+    ...mapState("users", ["users", "processingRequest"]),
     filteredUsers() {}
   },
   methods: {
     ...mapActions("users", ["getUsers"]),
+    ...mapMutations("users", ["SET_PROCESS_REQUEST"]),
     initializeUsers() {
-      this.getUsers();
+      this.SET_PROCESS_REQUEST(true);
+      this.getUsers().then((response) => {
+        this.SET_PROCESS_REQUEST(false);
+      }).catch((error) => {
+        this.SET_PROCESS_REQUEST(false);
+      });
     }
   }
 };
