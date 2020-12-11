@@ -3,19 +3,19 @@ import Api from "../apis/API";
 import { LocalStorage, Loading } from "quasar";
 
 const state = {
+  edit_mode: false,
   processingRequest: false,
-  page: "lists",
   crud_step: 1,
   farmers: [],
   farmer: {}
 };
 
 const mutations = {
+  SET_EDIT_MODE(state, value){
+    state.edit_mode = value;
+  },
   SET_PROCESS_REQUEST(state, value){
     state.processingRequest = value;
-  },
-  SET_PAGE(state, value) {
-    state.page = value;
   },
   SET_CRUD_STEP(state, value){
     state.crud_step = value;
@@ -29,20 +29,20 @@ const mutations = {
 };
 
 const actions = {
-  updatePage({ commit }, payload) {
-    commit("SET_PAGE", payload);
-  },
   storeFarmer({ commit }, payload) {
     return Api().post("farmer/store", payload);
   },
-  storeFarmerAgriculture({ commit }, payload) {
-    return Api().post("farmer/agriculture/store", {
-      farmer_id: payload.farmer_id,
-      farmer: payload.farmer,
-    });
+  updateFarmer({commit}, payload){
+    return Api().patch("farmer/update/" + payload.id, payload);
+  },
+  storeFarmerLand({ commit }, payload) {
+    return Api().post("farmer/land/store", payload);
   },
   getFarmers({ commit }, payload) {
     return Api().get("farmers");
+  },
+  getFarmer({commit}, payload){
+    return Api().get("farmer/" + payload);
   }
 };
 

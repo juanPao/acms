@@ -7,8 +7,9 @@
              <div class="text-h5"><q-icon name="groups"></q-icon> Manage Farmers</div>
           </div>
           <div class="col-12 col-md-6 " align="end">
-            <q-btn label="Lists of Farmers" color="info" size="lg" icon="list" v-if="page != 'lists'" @click="toggleLists()"></q-btn>
-            <q-btn label="Add Record" color="primary" icon="add_box" size="lg" v-if="page != 'create'" @click="toggleCreate()"></q-btn>
+            <q-btn label="Add Record" color="primary" icon="add_box" size="lg"  @click="toggleCreate()"></q-btn>
+            <!-- <router-link :to="{ name:'farmer-form', params: {farmer: 'Juan paolo'}}">Test form</router-link> -->
+            <!-- <router-link :to="{ name:'Farmer Form'}">Test form</router-link> -->
           </div>
         </div>
       </q-card-section>
@@ -16,28 +17,23 @@
 
     <div class="q-mt-md">
 
-     <FarmersTable v-if="page === 'lists'"></FarmersTable>
-     <FarmerCreate v-if="page === 'create'"></FarmerCreate>
-     <FarmerProfile v-if="page === 'profile'"></FarmerProfile>
+     <FarmersTable></FarmersTable>
     </div>
   </q-page>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 import FarmersTable from '../components/Farmers/FarmersTable'
-import FarmerCreate from '../components/Farmers/FarmerCreate'
-import FarmerProfile from '../components/Farmers/FarmerProfile'
 
 export default {
   name: "PageIndex",
   components: {
     FarmersTable,
-    FarmerCreate,
-    FarmerProfile,
   },
   data() {
     return {
+      test2: '4444',
       dna: {}
     };
   },
@@ -50,15 +46,20 @@ export default {
   methods: {
     ...mapActions("users", ["getUsers"]),
     ...mapActions("farmers", ["updatePage"]),
+    ...mapMutations("farmers", ["SET_EDIT_MODE", "SET_PAGE"]),
     initializeUsers() {
       this.getUsers();
     },
     toggleLists(){
-      this.updatePage("lists");
+      this.SET_PAGE("lists");
     },
     toggleCreate(){
-      this.updatePage("create");
+      this.SET_EDIT_MODE(false);
+      this.$router.push({name: "Farmer Form"});
     },
+    test(){
+      alert('qweqweqw');
+    }
 
   }
 };

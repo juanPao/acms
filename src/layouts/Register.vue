@@ -145,7 +145,7 @@ export default {
         fname: null,
         mname: null,
         lname: null,
-        contact_numb: null,
+        contact_num: null,
         email: null,
         password: null
       }

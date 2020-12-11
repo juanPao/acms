@@ -32,7 +32,7 @@
         <q-list>
           <q-item clickable v-ripple to="dashboard" exact>
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="/dashboard" />
             </q-item-section>
             <q-item-section>
               Dashboard
@@ -47,7 +47,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="farmers" exact>
+          <q-item clickable v-ripple to="/farmers" exact>
             <q-item-section avatar>
               <q-icon name="groups" />
             </q-item-section>
@@ -56,7 +56,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="settings" exact>
+          <q-item clickable v-ripple to="/settings" exact>
             <q-item-section avatar>
               <q-icon name="groups" />
             </q-item-section>
@@ -65,7 +65,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="users" exact>
+          <q-item clickable v-ripple to="/users" exact>
             <q-item-section avatar>
               <q-icon name="groups" />
             </q-item-section>

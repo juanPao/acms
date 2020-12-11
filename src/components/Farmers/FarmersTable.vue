@@ -5,10 +5,27 @@
     :columns="columns"
     color="primary"
     row-key="name"
-    :loading="loading"
+    :loading="processingRequest"
     :pagination="initialPagination"
+    :filter="filter"
     @row-click="toggleAction"
   >
+    <template v-slot:top-right>
+      <q-input
+        borderless
+        dense
+        debounce="300"
+        v-model="filter"
+        placeholder="Search"
+      >
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+      </q-input>
+    </template>
+    <template v-slot:loading>
+      <q-inner-loading showing color="primary" />
+    </template>
   </q-table>
 </template>
 
@@ -19,6 +36,7 @@ export default {
   name: "FarmersTable",
   data() {
     return {
+      filter: '',
       farmers: [],
       initialPagination: {
         sortBy: "asc",
@@ -29,15 +47,13 @@ export default {
       },
       columns: [
         {
-          label: "ID#",
+          label: "Reference#",
           align: "left",
           field: "id",
           sortable: true
         },
-        { label: "First name", field: "fname" },
-        { label: "Middle name", field: "mname" },
-        { label: "Last name", field: "lname" },
-        { label: "Last update", field: "updated_at" },
+        { label: "Farmer Name", field: "farmerName", align: "left",},
+        { label: "Last update", field: "updated_at" }
       ],
       loading: false
     };
@@ -45,23 +61,26 @@ export default {
   mounted() {
     this.initializeFarmers();
   },
-  computed: {},
+  computed: {
+    ...mapState("farmers", ["processingRequest"]),
+  },
   methods: {
     ...mapActions("farmers", ["getFarmers", "updatePage"]),
-    ...mapMutations("farmers", ["SET_FARMER"]),
+    ...mapMutations("farmers", ["SET_FARMER", "SET_PROCESS_REQUEST"]),
     initializeFarmers() {
+      this.SET_PROCESS_REQUEST(true);
       this.getFarmers()
-        .then((response) => {
-            console.log('test' + response.data);
+        .then(response => {
+          this.SET_PROCESS_REQUEST(false);
           this.farmers = response.data.farmers;
         })
         .catch(error => {
+          this.SET_PROCESS_REQUEST(false);
           console.log(error);
         });
     },
-    toggleAction(e,farmer) {
-      this.SET_FARMER(farmer);
-      this.updatePage("profile");
+    toggleAction(e, farmer) {
+      this.$router.push({name: "Farmer Profile", params: {farmer_id: farmer.id}});
     }
   }
 };

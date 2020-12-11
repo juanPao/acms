@@ -7,6 +7,8 @@ const routes = [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'dashboard', component: () => import('pages/Dashboard.vue') },
       { path: 'farmers', component: () => import('pages/Farmers.vue') },
+      { path: 'farmer/profile/:farmer_id', component: () => import('pages/FarmerProfile.vue'), name: "Farmer Profile" },
+      { path: 'farmer/form', component: () => import('pages/FarmerForm.vue'), name: 'Farmer Form' },
       { path: 'settings', component: () => import('pages/Settings.vue') },
       { path: 'users', component: () => import('pages/Users.vue') },
     ],
