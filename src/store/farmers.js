@@ -5,6 +5,7 @@ import { LocalStorage, Loading } from "quasar";
 const state = {
   processingRequest: false,
   page: "lists",
+  crud_step: 1,
   farmers: [],
   farmer: {}
 };
@@ -15,6 +16,9 @@ const mutations = {
   },
   SET_PAGE(state, value) {
     state.page = value;
+  },
+  SET_CRUD_STEP(state, value){
+    state.crud_step = value;
   },
   SET_FARMER(state, value) {
     state.farmer = value;
